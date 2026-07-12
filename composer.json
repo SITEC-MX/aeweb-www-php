@@ -1,0 +1,18 @@
+{
+    "name": "sitec/aeweb-www",
+    "description": "SDK para la creación de sitios web en PHP del Administrador de Empresas Web",
+    "type": "project",
+    "authors": [
+        {
+            "name": "SiTEC",
+            "email": "contacto@sistemasespecializados.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": { "Mpsoft\\AEWeb\\www\\": "src/" }
+    },
+    "require": {
+        "sitec/aeweb": "^0.4.5"
+    }
+}
