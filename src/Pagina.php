@@ -7,6 +7,8 @@
  */
 namespace Mpsoft\AEWeb\www;
 
+use \Mpsoft\AEWeb\AEWeb;
+
 abstract class Pagina
 {
     protected $http_codigo_de_estado;
@@ -26,7 +28,7 @@ abstract class Pagina
 
         $parametros["datos"] = $this->CargarDatos($parametros);
 
-        $this->EscribirHTML($parametros);
+        $this->EscribirContenido($parametros);
     }
 
 
@@ -40,7 +42,17 @@ abstract class Pagina
         {
             if( isset($query_string[$nombre]) ) // Si se proporciona el parámetro
             {
-                $qs[$nombre] = $query_string[$nombre];
+                // Lo convertimos al tipo de datos especificado
+                $tipo = isset($definicion["tipo"]) ? $definicion["tipo"] : AEWeb::DATO_STRING;
+
+                $valor = Utilidades::ConvertirATipoDeDato($query_string[$nombre], $tipo);
+
+                if($tipo == AEWeb::DATO_STRING) // Si el tipo de dato es string
+                {
+                    $valor = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+                }
+
+                $qs[$nombre] = $valor;
             }
             else // Si no se proporciona el parámetro
             {
@@ -54,9 +66,35 @@ abstract class Pagina
         return $qs;
     }
 
+    public static function ObtenerBody(string $clase_pagina, array $body): array
+    {
+        $body_definicion = $clase_pagina::DefinicionBody();
+
+        $bd = array();
+        foreach ($body_definicion as $nombre => $definicion) // Para cada parámetro definido en la definición de body
+        {
+            if (isset($body[$nombre])) // Si se proporciona el parámetro
+            {
+                // Lo convertimos al tipo de datos especificado
+                $tipo = isset($definicion["tipo"]) ? $definicion["tipo"] : AEWeb::DATO_STRING;
+
+                $valor = Utilidades::ConvertirATipoDeDato($body[$nombre], $tipo);
+
+                if ($tipo == AEWeb::DATO_STRING) // Si el tipo de dato es string
+                {
+                    $valor = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+                }
+
+                $bd[$nombre] = $valor;
+            }
+        }
+
+        return $bd;
+    }
 
 
-    protected abstract function EscribirHTML(array $parametros): void;
+
+    protected abstract function EscribirContenido(array $parametros): void;
 
     protected abstract function CargarDatos(array $parametros): array;
         
@@ -65,4 +103,6 @@ abstract class Pagina
     public abstract static function ObtenerContentyType(): string;
 
     public abstract static function DefinicionQueryString(): array;
+
+    public abstract static function DefinicionBody(): array;
 }

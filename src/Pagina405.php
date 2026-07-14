@@ -16,7 +16,7 @@ class Pagina405 extends Pagina
         $this->http_codigo_de_estado = 405;
     }
 
-    public function EscribirHTML(array $parametros): void
+    public function EscribirContenido(array $parametros): void
     {
 ?>
 <html>
@@ -43,6 +43,11 @@ class Pagina405 extends Pagina
     }
 
     public static function DefinicionQueryString(): array
+    {
+        return array();
+    }
+
+    public static function DefinicionBody(): array
     {
         return array();
     }

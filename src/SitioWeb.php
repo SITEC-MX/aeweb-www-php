@@ -187,6 +187,12 @@ class SitioWeb
             }
         }
 
+        $bd = array();
+        if( in_array($REQUEST_METHOD, array("GET","POST","PATCH","PUT"))) // Si el método tiene body
+        {
+            $bd = $pagina_clase::ObtenerBody($pagina_clase, $body);
+        }
+
         $pagina = new $pagina_clase($this);
 
         $parametros = array
@@ -194,7 +200,7 @@ class SitioWeb
             "base_url" => $this->configuracion["base_url"],
             "llamada_solicitada" => $LLAMADASOLICITADA,
             "variables" => $variables,
-            "body" => $body,
+            "body" => $bd,
             "qs" => $qs
         );
 

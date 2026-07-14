@@ -10,7 +10,7 @@
     <SaveServerSettingsInUserFile>false</SaveServerSettingsInUserFile>
     <PHPDevHostName>localhost</PHPDevHostName>
     <PHPDevAutoPort>false</PHPDevAutoPort>
-    <PHPDevRouting />
+    <PHPDevRouting>prueba.php</PHPDevRouting>
     <PHPDevPort>80</PHPDevPort>
   </PropertyGroup>
 </Project>
